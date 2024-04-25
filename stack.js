@@ -1,11 +1,11 @@
-class Stack {
+export class Stack {
   top = null;
   length = 0;
 
   push(value){
-    const newNode = new Node(value);
-    newNode.next = this.top;
-    this.top = newNode;
+    const newNode = new Node(value); //new Node 생성 후 할당
+    newNode.next = this.top; //new Node의 next는 현재 top
+    this.top = newNode; //top을 new Node로 재할당
     this.length++;
     return this.length;
   }
@@ -14,9 +14,14 @@ class Stack {
     if(!this.top){
       return null;
     }
-    this.top = this.top.next;
+    let tempTop = this.top;
+    this.top = this.top.next; //top은 현재 top의 next
     this.length--;
-    return this.length;
+    return tempTop.value;
+  }
+  
+  top(){
+    return this.top.value;
   }
 }
 
@@ -27,9 +32,9 @@ class Node{
   }
 }
 
-const stack = new Stack();
-stack.push(1);
-stack.push(2);
-stack.pop();
-stack.pop();
+// const stack = new Stack();
+// stack.push(1);
+// stack.push(2);
+// stack.pop();
+// stack.pop();
 

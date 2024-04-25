@@ -1,21 +1,31 @@
 //나보다 작은애들이 왼쪽 나보다 큰애들이 오른쪽
-class BinarySearchTree {
+export class BinarySearchTree {
   root = null;
-
+  length = 0;
   #insert(node,value){
     if(node.value > value){
       // 루트 노드보다 작으면
       if(node.left){
+        if(node.left.value === value){
+          console.log(`${value}값은 이미 존재하는 값입니다.`)
+          return
+        }
         this.#insert(node.left, value);
       }else{
         node.left = new Node(value);
+        this.length++;
       }
     }else{
       // 루트 노드보다 크면
       if(node.right){
+        if(node.right.value === value){
+          console.log(`${value}값은 이미 존재하는 값입니다.`)
+          return
+        }
         this.#insert(node.right, value);
       }else{
         node.right = new Node(value);
+        this.length++;
       }
     }
   }
@@ -26,9 +36,11 @@ class BinarySearchTree {
     // 만약 왼팔 오른팔이 없으면 거기다 넣는다.
     if(!this.root){
       this.root = new Node(value);
+      this.length ++;
     }else{
       this.#insert(this.root, value);
     }
+    //숙제 이미 있는값을 넣을경우 에러처리(alert,throw)
   }
 
   #search(node,value){
@@ -64,18 +76,21 @@ class BinarySearchTree {
   #remove(node,value){
     if(!node){
       //제거할 값이 bst에 존재하지 않는경우
-      return false; //지울 값이 존재 안하면 false, 존재하면 true
+      return null; //지울 값이 존재 안하면 false, 존재하면 true
     }
     if(node.value === value){ //자식 입장
       //지울값을 찾은경우
       if(!node.left && !node.right){
         //leaf
+        this.length--;
         return null;
       }
       if(!node.right){
+        this.length--;
         return node.left;
       }
       if(!node.left){
+        this.length--;
         return node.right;
       }
       if(node.left && node.right){
@@ -115,10 +130,8 @@ class BinarySearchTree {
     if(!this.root){
       return null;
     }else{
-      const node = this.#remove(this.root, value);
-      if(node){
-        this.root = node;
-      }
+      this.root = this.#remove(this.root, value);
+      return this.length; // 숙제로 length 리턴
     }
   }
 }
@@ -130,12 +143,18 @@ class Node{
     this.value = value;
   }
 }
-const bst = new BinarySearchTree;
-bst.insert(8);
-bst.insert(5);
-bst.insert(10);
-bst.insert(4);
-bst.insert(3);
-bst.insert(2);
-bst.remove(3);
+// const bst = new BinarySearchTree;
+// bst.insert(8);
+// bst.insert(10);
+// bst.insert(10);
+// bst.insert(3);
+// bst.insert(1);
+// bst.insert(6);
+// bst.insert(7);
+// bst.insert(4);
+// bst.insert(14);
+// bst.insert(13);
+// console.log('remove',bst.remove(8));
+// console.log('remove',bst.remove(10));
+
 

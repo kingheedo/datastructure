@@ -4,12 +4,15 @@ class LinkedList {
 
   add(value){
     if(this.head){  
+      //head가 있을때
       let current = this.head;
       while(current.next){
+        //while문으로 next가 있을 때까지 head를 이동
         current = current.next;
       }
       current.next = new Node(value);
     }else{
+      //head가 없을때
       this.head = new Node(value);
     }
 
@@ -17,8 +20,22 @@ class LinkedList {
     return this.length;
   }
 
+    #search(index){
+    let cnt = 0;
+    let prev; 
+    let current = this.head;
+    while(cnt < index){
+      prev = current;
+      current = current.next;
+      cnt++;
+    }
+    //prev는 index에 해당하는 값 바로 전의 노드 current는 찾고자하는 인덱스의 노드
+    return [prev, current];
+  }
+  
   remove(index){
     if(!this.head){
+      //head가 있을때
       return null;
     }
     const [prev, current] = this.#search(index);
@@ -33,25 +50,8 @@ class LinkedList {
   }
 
   search(index){
-    let cnt = 0;
-    let current = this.head;
-    while(cnt < index){
-      current = current.next;
-      cnt++;
-    }
+    const current = this.#search(index)[1];
     return current.value;
-  }
-
-  #search(index){
-    let cnt = 0;
-    let prev; 
-    let current = this.head;
-    while(cnt < index){
-      prev = current;
-      current = current.next;
-      cnt++;
-    }
-    return [prev, current]
   }
 
   get length(){
